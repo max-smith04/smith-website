@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE SMITH FAMILY — Forged, Not Found</title>
+<meta name="description" content="One name. Seven centuries. Four million of us. A site for the Smith family group chat.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🔨</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THE SMITH FAMILY — forged, not found
+   Coal · Iron · Bone · Ember · Molten Gold · White-hot
+   ============================================================ */
+:root{
+  --coal:#0b0a08;
+  --iron:#14110c;
+  --panel:#181410;
+  --bone:#ece3d1;
+  --bone-dim:#a89e8a;
+  --mut:#6f6757;
+  --ember:#ff5a1f;
+  --ember-2:#ff8a3d;
+  --gold:#e0a45c;
+  --hot:#ffd9a0;
+  --line:rgba(236,227,209,.14);
+  --e:cubic-bezier(.16,1,.3,1);
+  --anton:'Anton',Impact,sans-serif;
+  --serif:'Instrument Serif',Georgia,serif;
+  --grot:'Space Grotesk',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{
+  background:var(--coal);
+  color:var(--bone);
+  font-family:var(--grot);
+  font-weight:300;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body.loading{overflow:hidden}
+::selection{background:var(--ember);color:var(--coal)}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+section{scroll-margin-top:84px;position:relative}
+.wrap{width:min(1480px,92vw);margin-inline:auto}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase}
+em,i{font-family:var(--serif);font-style:italic;font-weight:400}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--coal)}
+::-webkit-scrollbar-thumb{background:#2c2620;border-radius:99px;border:2px solid var(--coal)}
+::-webkit-scrollbar-thumb:hover{background:var(--ember)}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+
+/* ---------- fixed chrome ---------- */
+.noise{
+  position:fixed;inset:0;z-index:96;pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+.vignette{position:fixed;inset:0;z-index:95;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 10%,transparent 55%,rgba(0,0,0,.5) 100%)}
+#bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:99;
+  background:linear-gradient(90deg,var(--ember),var(--gold),var(--hot));
+  transform:scaleX(0);transform-origin:0 50%}
+
+/* cursor */
+#cDot,#cRing{position:fixed;top:0;left:0;z-index:100;pointer-events:none;border-radius:50%;opacity:0}
+#cDot{width:6px;height:6px;background:var(--ember)}
+#cRing{width:36px;height:36px;border:1px solid var(--bone);mix-blend-mode:difference;transition:width .2s,height .2s}
+body.has-cursor{cursor:none}
+body.has-cursor a,body.has-cursor button,body.has-cursor [data-hover]{cursor:none}
+
+/* click sparks */
+.spark{position:fixed;z-index:101;border-radius:50%;pointer-events:none;
+  box-shadow:0 0 8px 1px rgba(255,90,31,.55)}
+
+/* ---------- loader ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:#080705;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;
+  transition:transform 1s cubic-bezier(.77,0,.18,1);will-change:transform}
+#loader.done{transform:translateY(-101%)}
+#loader .mono{color:var(--mut)}
+#ldNum{font-family:var(--anton);font-size:clamp(4rem,14vw,9rem);line-height:1;color:var(--bone);
+  font-variant-numeric:tabular-nums;letter-spacing:.02em}
+#ldNum::after{content:"%";font-size:.32em;color:var(--ember);vertical-align:super;margin-left:.1em}
+#ldBarWrap{width:min(320px,60vw);height:1px;background:var(--line)}
+#ldBar{display:block;height:100%;background:linear-gradient(90deg,var(--ember),var(--hot));
+  transform:scaleX(0);transform-origin:0 50%}
+
+/* ---------- nav ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:90;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem clamp(1rem,4vw,3rem);
+  transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+body.scrolled nav{background:rgba(11,10,8,.72);backdrop-filter:blur(12px);border-color:var(--line)}
+.brand{font-family:var(--anton);font-size:1.3rem;letter-spacing:.04em;display:flex;align-items:baseline;gap:.5rem}
+.brand b{color:var(--ember);font-weight:400}
+.brand .mono{color:var(--mut);font-size:.6rem}
+nav ul{display:flex;gap:1.8rem;list-style:none}
+nav ul a{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--bone-dim);
+  transition:color .25s;position:relative;padding:.3rem 0}
+nav ul a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--ember);transform:scaleX(0);transform-origin:0 50%;transition:transform .35s var(--e)}
+nav ul a:hover{color:var(--bone)}
+nav ul a:hover::after{transform:scaleX(1)}
+
+/* nav + hero intro */
+.js nav,.js .hero-meta,.js .hero-foot{opacity:0;transform:translateY(-12px);transition:opacity .9s var(--e) .9s,transform .9s var(--e) .9s}
+.js .hero-foot{transform:translateY(12px)}
+body.loaded nav,body.loaded .hero-meta,body.loaded .hero-foot{opacity:1;transform:none}
+body.loaded nav{transition:background .4s,backdrop-filter .4s,border-color .4s}
+
+/* ---------- hero ---------- */
+.hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;
+  overflow:hidden;background:
+   radial-gradient(60% 42% at 50% 108%,rgba(255,90,31,.16),transparent 70%),
+   radial-gradient(38% 26% at 50% 112%,rgba(255,217,160,.12),transparent 70%),
+   var(--coal)}
+#embers{position:absolute;inset:0;pointer-events:none}
+#embers i{position:absolute;bottom:-12px;border-radius:50%;
+  background:radial-gradient(circle,var(--hot),var(--ember) 60%,transparent 75%);
+  animation:emberUp linear infinite}
+@keyframes emberUp{
+  0%{transform:translate3d(0,0,0);opacity:0}
+  8%{opacity:1}
+  100%{transform:translate3d(var(--dx,0px),-108vh,0);opacity:0}
+}
+#heroInner{position:relative;z-index:2;margin-block:auto;padding-block:2vh}
+.hero-meta{display:flex;justify-content:space-between;gap:1rem;color:var(--mut);
+  padding:5.4rem clamp(1rem,4vw,3rem) 0}
+.hero-title{position:relative;text-align:center;font-family:var(--anton);font-weight:400;
+  line-height:.82;letter-spacing:.005em;user-select:none}
+.hero-title .row{display:block;white-space:nowrap}
+.row-smith{font-size:clamp(4.6rem,25.5vw,26rem)}
+.row-family{font-size:clamp(3.8rem,21vw,21.4rem);color:transparent;
+  -webkit-text-stroke:2px var(--bone)}
+@supports not (-webkit-text-stroke:2px black){.row-family{color:var(--bone-dim)}}
+.the{position:absolute;top:-.4em;left:6%;transform:rotate(-6deg);z-index:3;
+  font-family:var(--serif);font-style:italic;color:var(--ember);
+  font-size:clamp(1.6rem,5.5vw,4.6rem);text-transform:lowercase;letter-spacing:0}
+.mask{display:inline-block;overflow:hidden;vertical-align:bottom}
+.char{display:inline-block;transition:transform 1s var(--e),color .3s;transition-delay:var(--d,0s)}
+.js .hero-title .char{transform:translateY(112%)}
+body.loaded .hero-title .char{transform:translateY(0)}
+body.loaded .row-smith .char:hover{transform:translateY(-.06em);color:var(--ember)}
+.hero-rule{width:min(620px,72vw);height:1px;background:var(--line);margin:clamp(1.2rem,3.5vh,2.4rem) auto 0;
+  transform:scaleX(0);transition:transform 1.3s var(--e) 1.5s}
+body.loaded .hero-rule{transform:scaleX(1)}
+.hero-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;
+  padding:clamp(1.4rem,4vh,2.6rem) clamp(1rem,4vw,3rem) clamp(1.6rem,5vh,3rem)}
+.hero-blurb{max-width:34ch;font-size:clamp(.95rem,1.4vw,1.15rem);color:var(--bone-dim)}
+.hero-blurb i{color:var(--gold)}
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:.7rem;color:var(--mut)}
+.scroll-cue .stem{width:1px;height:54px;background:var(--line);position:relative;overflow:hidden}
+.scroll-cue .stem::after{content:"";position:absolute;left:0;top:-40%;width:100%;height:40%;
+  background:var(--ember);animation:cue 1.8s var(--e) infinite}
+@keyframes cue{to{top:110%}}
+
+/* ---------- marquee ---------- */
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding:1rem 0;background:var(--iron)}
+.mq-track{display:flex;width:max-content;animation:mq 26s linear infinite}
+.marquee.rev .mq-track{animation-direction:reverse}
+.mq-group{display:flex;align-items:center;flex-shrink:0}
+.mq-group span{font-family:var(--anton);font-size:clamp(1.6rem,4vw,3.2rem);line-height:1;
+  white-space:nowrap;padding:0 1.6rem;color:var(--bone)}
+.mq-group span:nth-of-type(even){color:transparent;-webkit-text-stroke:1px var(--bone-dim)}
+@supports not (-webkit-text-stroke:1px black){.mq-group span:nth-of-type(even){color:var(--mut)}}
+.mq-group b{color:var(--ember);font-weight:400;font-size:1.4rem;align-self:center}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- shared section bits ---------- */
+.sec{padding:clamp(5rem,14vh,10rem) 0}
+.sec-head{margin-bottom:clamp(2.6rem,7vh,4.6rem)}
+.kicker{display:inline-flex;align-items:center;gap:.7rem;color:var(--ember);margin-bottom:1.1rem}
+.kicker::before{content:"";width:34px;height:1px;background:var(--ember)}
+.sec-title{font-family:var(--anton);font-weight:400;text-transform:uppercase;
+  font-size:clamp(2.5rem,7.4vw,6.6rem);line-height:.92;letter-spacing:.005em}
+.sec-title em{color:var(--gold);text-transform:lowercase;letter-spacing:0;font-size:1.04em}
+.sec-sub{margin-top:1rem;color:var(--mut)}
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s var(--e),transform .9s var(--e)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal .mask>span{display:inline-block;transform:translateY(115%);transition:transform 1s var(--e)}
+.js .reveal.in .mask>span{transform:none}
+
+/* ---------- 01 origin ---------- */
+#origin{background:var(--coal)}
+.origin-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4.5rem)}
+.origin-copy .lede{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,2.6vw,2.1rem);
+  color:var(--gold);line-height:1.3;margin-bottom:1.6rem}
+.origin-copy p+p{margin-top:1.2rem}
+.origin-copy p{max-width:56ch;color:var(--bone-dim);font-size:clamp(.98rem,1.25vw,1.12rem)}
+.origin-copy p strong{color:var(--bone);font-weight:500}
+.origin-copy .dc::first-letter{font-family:var(--anton);font-size:3.4em;float:left;
+  line-height:.82;padding:.04em .12em 0 0;color:var(--ember)}
+.trades{margin-top:2.4rem}
+.trades .mono{color:var(--mut);display:block;margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.55rem;list-style:none}
+.chips li{border:1px solid var(--line);padding:.5rem .9rem;border-radius:99px;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:var(--bone-dim);
+  transition:border-color .3s,color .3s,transform .3s}
+.chips li:hover{border-color:var(--ember);color:var(--bone);transform:translateY(-2px)}
+.chips li b{color:var(--gold);font-weight:400}
+.anvil-stick{position:relative}
+.anvil-frame{position:sticky;top:13vh}
+.anvil-frame{display:flex;flex-direction:column;min-height:62vh;border:1px solid var(--line);background:
+   radial-gradient(70% 60% at 50% 88%,rgba(255,90,31,.12),transparent 70%),var(--iron);
+  padding:clamp(1rem,2.5vw,2rem);position:relative}
+.anvil-frame .corner{position:absolute;width:14px;height:14px;border:1px solid var(--ember)}
+.anvil-frame .c1{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.anvil-frame .c2{top:-1px;right:-1px;border-left:0;border-bottom:0}
+.anvil-frame .c3{bottom:-1px;left:-1px;border-right:0;border-top:0}
+.anvil-frame .c4{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.anvil-frame figcaption{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:var(--mut);margin-top:1rem}
+.scene{width:100%;height:auto;margin-block:auto}
+.scene .draw{fill:none;stroke:var(--bone);stroke-width:3.4;stroke-linejoin:round;stroke-linecap:round;
+  stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:opacity .25s}
+.scene .ember-stroke{stroke:var(--ember)}
+.scene .gold-stroke{stroke:var(--gold)}
+.scene .thin{stroke-width:2.2}
+.scene .dashy{stroke-dasharray:1!important}
+.glowpt{fill:var(--hot);opacity:0;transition:opacity .5s var(--e)}
+.glowpt.on{opacity:1}
+
+/* pull quote */
+.quote{padding:clamp(4rem,12vh,8rem) 0;background:var(--iron);border-block:1px solid var(--line);
+  text-align:center;overflow:hidden}
+.quote blockquote{font-family:var(--serif);font-style:italic;font-size:clamp(1.9rem,5.6vw,4.8rem);
+  line-height:1.12;max-width:22ch;margin-inline:auto}
+.quote blockquote b{color:var(--ember);font-weight:400}
+.quote .att{margin-top:1.6rem;color:var(--mut)}
+.quote .att i{color:var(--bone-dim);font-size:.95rem;letter-spacing:0;text-transform:none}
+
+/* ---------- 02 numbers ---------- */
+#numbers{background:var(--coal)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-right:0}
+.stat{border-right:1px solid var(--line);padding:clamp(1.6rem,3vw,2.6rem) clamp(1.2rem,2vw,2rem);
+  display:flex;flex-direction:column;gap:1rem;min-height:240px;background:var(--coal);
+  transition:background .4s}
+.stat:hover{background:var(--iron)}
+.stat .mono{color:var(--mut)}
+.stat-n{font-family:var(--anton);font-size:clamp(2.7rem,5.4vw,5.2rem);line-height:1;color:var(--bone);
+  margin-top:auto;font-variant-numeric:tabular-nums}
+.stat-n .pre,.stat-n .suf{color:var(--ember);font-size:.62em}
+.stat p{color:var(--bone-dim);font-size:.92rem;max-width:30ch}
+.stat-note{margin-top:1.4rem;color:var(--mut)}
+.stat-note b{color:var(--ember);font-weight:400}
+
+/* ---------- 03 world (horizontal) ---------- */
+#worldWrap{position:relative;background:var(--iron)}
+#worldSticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  padding-top:clamp(5.4rem,9vh,6.8rem);border-block:1px solid var(--line)}
+.world-head{padding:0 clamp(1rem,4vw,3rem);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;z-index:3}
+.world-head .sec-title{font-size:clamp(2.1rem,5.3vw,4.8rem)}
+.world-head .sec-sub{text-align:right;max-width:26ch}
+#worldTrack{display:flex;gap:clamp(1rem,2.2vw,2rem);align-items:flex-start;
+  padding-left:max(6vw,1.5rem);padding-right:38vw;will-change:transform;margin-top:clamp(2.2rem,6vh,3.6rem)}
+.wcard{flex:0 0 auto;width:clamp(280px,36vw,440px);height:min(54vh,460px);
+  border:1px solid var(--line);background:var(--coal);padding:1.4rem;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;transform:skewX(var(--lean,0deg));transition:transform .25s ease,border-color .3s}
+.wcard:hover{border-color:var(--ember)}
+.wcard .idx{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--ember)}
+.wcard .ghost{position:absolute;right:-2%;bottom:-16%;font-family:var(--anton);
+  font-size:15rem;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(236,227,209,.07);
+  pointer-events:none;user-select:none}
+.wcard h3{font-family:var(--anton);font-weight:400;font-size:clamp(2.1rem,4.6vw,3.8rem);
+  line-height:.95;margin-top:auto;text-transform:uppercase;letter-spacing:.01em}
+.wcard .where{color:var(--gold);font-family:var(--serif);font-style:italic;font-size:1.15rem;margin:.5rem 0 .9rem;border-top:0!important;padding-top:0!important}
+.wcard p{color:var(--bone-dim);font-size:.9rem;max-width:30ch;border-top:1px solid var(--line);padding-top:.9rem}
+.wcard.last{background:linear-gradient(135deg,#1c130b,var(--coal) 70%);justify-content:center;text-align:center}
+.wcard.last h3{margin:0 auto;font-size:clamp(1.7rem,3.4vw,2.6rem);max-width:11ch;color:var(--bone)}
+.wcard.last h3 em{color:var(--ember)}
+.wcard.last .idx{position:absolute;top:1.4rem;left:1.4rem}
+.wcard.last .star{font-size:2rem;color:var(--ember);margin-bottom:1rem;font-family:var(--serif)}
+
+/* ---------- 04 legends (timeline) ---------- */
+#legends{background:var(--coal)}
+.tl{position:relative;padding-left:118px;max-width:980px}
+#tlSvg{position:absolute;left:0;top:0;width:80px;overflow:visible}
+#tlPath{fill:none;stroke:var(--ember);stroke-width:2.5;stroke-linecap:round;
+  stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:opacity .25s;
+  filter:drop-shadow(0 0 6px rgba(255,90,31,.45))}
+.tl-item{position:relative;padding:0 0 clamp(3.4rem,9vh,6rem)}
+.tl-item:last-child{padding-bottom:1rem}
+.tl-item::before{content:"";position:absolute;left:-85px;top:18px;width:15px;height:15px;border-radius:50%;
+  border:2px solid var(--mut);background:var(--coal);transition:border-color .5s,background .5s,box-shadow .5s}
+.tl-item.lit::before{border-color:var(--ember);background:var(--ember);
+  box-shadow:0 0 0 5px rgba(255,90,31,.16),0 0 18px rgba(255,90,31,.6)}
+.tl-item .yr{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;color:var(--gold)}
+.tl-item h3{font-family:var(--anton);font-weight:400;text-transform:uppercase;
+  font-size:clamp(1.7rem,4vw,3.1rem);line-height:1;margin:.45rem 0 .7rem;
+  transition:color .4s}
+.tl-item.lit h3{color:var(--bone)}
+.js .tl-item:not(.lit) h3{color:var(--mut)}
+.tl-item p{color:var(--bone-dim);max-width:52ch;font-size:clamp(.95rem,1.2vw,1.06rem)}
+.tl-item p i{color:var(--gold)}
+
+/* ---------- 05 facts ---------- */
+#facts{background:var(--iron);border-top:1px solid var(--line)}
+.facts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;perspective:900px}
+.fact{border:1px solid var(--line);background:var(--coal);padding:1.6rem;min-height:300px;
+  display:flex;flex-direction:column;gap:.9rem;transition:transform .45s var(--e),border-color .3s;
+  will-change:transform}
+.fact:hover{border-color:var(--gold)}
+.fact .no{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--ember)}
+.fact h3{font-family:var(--anton);font-weight:400;text-transform:uppercase;font-size:1.5rem;line-height:1.05}
+.fact p{color:var(--bone-dim);font-size:.93rem}
+.fact p b{color:var(--bone);font-weight:500}
+.fact p i{color:var(--gold)}
+.fact .shoe{margin-top:auto;align-self:flex-end;width:104px}
+.shoe .draw{fill:none;stroke:var(--gold);stroke-width:12;stroke-linecap:round;
+  stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:opacity .25s}
+.shoe .hole{fill:var(--coal);opacity:0;transition:opacity .4s}
+.shoe .hole.on{opacity:1}
+
+/* ---------- 06 us ---------- */
+#us{background:var(--coal);text-align:center}
+.manifesto{font-family:var(--serif);font-size:clamp(1.7rem,4.4vw,3.7rem);line-height:1.22;
+  max-width:24ch;margin:0 auto}
+.manifesto i{color:var(--ember)}
+.manifesto b{font-weight:400;color:var(--gold)}
+.ledger{margin:clamp(2.8rem,8vh,4.6rem) auto 0;max-width:680px;border-top:1px solid var(--line)}
+.ledger li{display:flex;justify-content:space-between;gap:1rem;list-style:none;
+  padding:1rem .4rem;border-bottom:1px solid var(--line);font-family:var(--mono);
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim)}
+.ledger li b{color:var(--ember);font-weight:400;text-align:right}
+.motto{margin-top:clamp(3.4rem,10vh,6rem)}
+.motto .mono{color:var(--mut)}
+.motto h3{font-family:var(--anton);font-weight:400;font-size:clamp(3rem,10vw,8.4rem);line-height:1;
+  margin:.6rem 0 .4rem;color:transparent;-webkit-text-stroke:2px var(--gold)}
+@supports not (-webkit-text-stroke:2px black){.motto h3{color:var(--gold)}}
+.motto p{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2vw,1.5rem);color:var(--bone-dim)}
+.motto p b{color:var(--bone);font-weight:400}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);background:var(--iron);overflow:hidden}
+.foot-mq{padding:clamp(1.2rem,4vh,2.4rem) 0;overflow:hidden}
+.foot-mq .mq-track{animation-duration:34s}
+.foot-mq span{font-family:var(--anton);font-size:clamp(4.6rem,15vw,15rem);line-height:1;
+  padding:0 2.2rem;color:transparent;-webkit-text-stroke:2px rgba(236,227,209,.32);white-space:nowrap}
+@supports not (-webkit-text-stroke:2px black){.foot-mq span{color:var(--mut)}}
+.foot-mq b{color:var(--ember);font-weight:400;font-size:3rem;align-self:center}
+.foot-bar{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  border-top:1px solid var(--line);padding:1.3rem clamp(1rem,4vw,3rem);color:var(--mut)}
+.foot-bar b{color:var(--ember);font-weight:400}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .stats{grid-template-columns:repeat(2,1fr);border-bottom:0}
+  .stat{border-bottom:1px solid var(--line)}
+  .facts-grid{grid-template-columns:repeat(2,1fr)}
+  .origin-grid{grid-template-columns:1fr}
+  .anvil-stick{order:-1;margin-bottom:1.4rem}
+  .anvil-frame{position:static;min-height:0}
+}
+@media (max-width:720px){
+  nav ul{display:none}
+  .hero-foot{flex-direction:column;align-items:flex-start}
+  .scroll-cue{align-self:center}
+  .facts-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .tl{padding-left:84px}
+  .tl-item::before{left:-51px}
+  .world-head{flex-direction:column;align-items:flex-start;gap:.6rem}
+  .world-head .sec-sub{text-align:left}
+  #worldSticky{padding-top:4.6rem}
+  .world-head .sec-title{font-size:clamp(1.7rem,7.4vw,2.4rem)}
+  .wcard{width:80vw;height:min(52vh,470px)}
+  #worldTrack{padding-right:60vw}
+  .the{left:1%}
+}
+
+/* post-reveal overrides (keep hovers snappy after entrance) */
+.js .fact.in{transition:transform .4s ease,opacity .6s,border-color .3s}
+.js .chips li.in{transition:border-color .3s,color .3s,transform .3s}
+.js .stat.in{transition:background .4s,opacity .9s var(--e),transform .9s var(--e)}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal,.js .mask>span,.js .hero-title .char,.js nav,.js .hero-meta,.js .hero-foot{opacity:1;transform:none}
+  .scene .draw,#tlPath,.shoe .draw{stroke-dashoffset:0!important;opacity:1!important}
+  .glowpt,.shoe .hole{opacity:1!important}
+  .js .tl-item h3{color:var(--bone)}
+  .hero-rule{transform:scaleX(1)}
+}
+</style>
+</head>
+<body class="loading">
+
+<!-- loader -->
+<div id="loader" aria-hidden="true">
+  <span class="mono">The Smith Family — heating the forge</span>
+  <div id="ldNum">000</div>
+  <div id="ldBarWrap"><span id="ldBar"></span></div>
+</div>
+
+<!-- fixed chrome -->
+<div class="noise" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<span id="bar" aria-hidden="true"></span>
+<span id="cDot" aria-hidden="true"></span>
+<span id="cRing" aria-hidden="true"></span>
+
+<nav>
+  <a class="brand" href="#top" data-hover>SMITH<b>.</b> <span class="mono">est. c.1300</span></a>
+  <ul>
+    <li><a href="#origin" data-hover>Origin</a></li>
+    <li><a href="#numbers" data-hover>Numbers</a></li>
+    <li><a href="#world" data-hover>World</a></li>
+    <li><a href="#legends" data-hover>Legends</a></li>
+    <li><a href="#facts" data-hover>Facts</a></li>
+    <li><a href="#us" data-hover>Us</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div id="embers" aria-hidden="true"></div>
+  <div class="hero-meta mono">
+    <span>One name / four million strikers</span>
+    <span>Pop. 4,000,000+</span>
+  </div>
+  <div id="heroInner">
+    <h1 class="hero-title" aria-label="The Smith Family">
+      <span class="the"><span class="mask"><span class="char" style="--d:1.05s">the</span></span></span>
+      <span class="row row-smith" aria-hidden="true"><span class="mask"><span class="char" style="--d:.15s">S</span></span><span class="mask"><span class="char" style="--d:.22s">M</span></span><span class="mask"><span class="char" style="--d:.29s">I</span></span><span class="mask"><span class="char" style="--d:.36s">T</span></span><span class="mask"><span class="char" style="--d:.43s">H</span></span></span>
+      <span class="row row-family" aria-hidden="true"><span class="mask"><span class="char" style="--d:.52s">F</span></span><span class="mask"><span class="char" style="--d:.59s">A</span></span><span class="mask"><span class="char" style="--d:.66s">M</span></span><span class="mask"><span class="char" style="--d:.73s">I</span></span><span class="mask"><span class="char" style="--d:.80s">L</span></span><span class="mask"><span class="char" style="--d:.87s">Y</span></span></span>
+    </h1>
+    <div class="hero-rule" aria-hidden="true"></div>
+  </div>
+  <div class="hero-foot">
+    <p class="hero-blurb">One name. Seven centuries. Four million of us — <i>and one group chat that never sleeps.</i></p>
+    <div class="scroll-cue mono"><span>Scroll</span><span class="stem"></span></div>
+    <p class="hero-blurb mono" style="text-align:right">Forged, not found</p>
+  </div>
+</header>
+
+<!-- marquee 1 -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <div class="mq-group">
+      <span>Nº1 in the English-speaking world</span><b>✦</b>
+      <span>Est. circa 1300</span><b>✦</b>
+      <span>Four million strong</span><b>✦</b>
+      <span>Forged, not found</span><b>✦</b>
+    </div>
+    <div class="mq-group" aria-hidden="true">
+      <span>Nº1 in the English-speaking world</span><b>✦</b>
+      <span>Est. circa 1300</span><b>✦</b>
+      <span>Four million strong</span><b>✦</b>
+      <span>Forged, not found</span><b>✦</b>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 01 ORIGIN ============ -->
+<section class="sec" id="origin">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="kicker mono">(01) — Etymology</span>
+      <h2 class="sec-title"><span class="mask"><span>FROM&nbsp;</span></span><span class="mask"><span>THE&nbsp;</span></span><em>forge</em></h2>
+    </header>
+    <div class="origin-grid">
+      <div class="origin-copy">
+        <p class="lede reveal">Before it was a name, it was the job.</p>
+        <p class="dc reveal"><strong>Smith</strong> comes from the Old English <strong>smið</strong> — close kin to <i>smītan</i>, “to strike.” The smith was the one person no village could function without: maker of ploughs, hinges, horseshoes, nails and blades. Civilisation’s hardware department, one hammer-blow at a time.</p>
+        <p class="reveal">When England began fixing surnames around the 13th century, John-the-smith simply became <strong>John Smith</strong> — and because every village had exactly one forge, the name spread like sparks off hot iron. Seven hundred years later it tops the charts in five countries and shows no sign of cooling.</p>
+        <div class="trades reveal">
+          <span class="mono">The extended trade family</span>
+          <ul class="chips" data-stagger>
+            <li class="reveal">Blacksmith <b>— iron, the “black” metal</b></li>
+            <li class="reveal">Whitesmith <b>— tin</b></li>
+            <li class="reveal">Goldsmith</li>
+            <li class="reveal">Silversmith</li>
+            <li class="reveal">Locksmith</li>
+            <li class="reveal">Gunsmith</li>
+            <li class="reveal">Swordsmith</li>
+            <li class="reveal">Wordsmith <b>— in use right now</b></li>
+          </ul>
+        </div>
+      </div>
+      <div class="anvil-stick" data-draw data-lead="0.6" data-span="0.95">
+        <figure class="anvil-frame reveal">
+          <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+          <svg class="scene" viewBox="0 0 640 340" role="img" aria-label="A line drawing of a hammer striking an anvil, drawn in as you scroll">
+            <path class="draw" data-s="0" data-e="0.5" pathLength="1" d="M60 170 C110 130 180 118 260 118 L520 118 L520 178 L440 178 L440 210 C440 234 472 244 472 268 L472 292 L208 292 L208 268 C208 244 240 234 240 210 L240 178 L160 178 C120 178 84 176 60 170 Z"/>
+            <path class="draw thin gold-stroke" data-s="0.42" data-e="0.56" pathLength="1" d="M150 304 L540 304"/>
+            <path class="draw" data-s="0.5" data-e="0.68" pathLength="1" d="M380 40 L470 40 L470 84 L380 84 Z"/>
+            <path class="draw" data-s="0.6" data-e="0.78" pathLength="1" d="M470 50 L592 28 L598 50 L478 72 Z"/>
+            <path class="draw thin gold-stroke" data-s="0.68" data-e="0.84" pathLength="1" d="M256 34 C300 8 348 6 388 24"/>
+            <path class="draw thin ember-stroke" data-s="0.78" data-e="0.9" pathLength="1" d="M392 108 A33 33 0 0 1 458 108"/>
+            <path class="draw thin ember-stroke" data-s="0.82" data-e="0.94" pathLength="1" d="M378 116 A47 47 0 0 1 472 116"/>
+            <path class="draw thin ember-stroke" data-s="0.86" data-e="0.97" pathLength="1" d="M404 96 L390 78"/>
+            <path class="draw thin ember-stroke" data-s="0.89" data-e="1" pathLength="1" d="M425 94 L425 74"/>
+            <path class="draw thin ember-stroke" data-s="0.92" data-e="1" pathLength="1" d="M446 96 L460 78"/>
+            <circle class="glowpt" data-pop="0.95" cx="425" cy="113" r="5"/>
+          </svg>
+          <figcaption class="mono"><span>Fig. 01 — the family crest</span><span>Scroll to strike</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- pull quote -->
+<div class="quote">
+  <blockquote class="reveal"><b>“Strike while the iron is hot.”</b></blockquote>
+  <p class="att mono reveal">— an actual smithing instruction<br><i>the forge gave English half its idioms: irons in the fire, forging ahead, hammering it out</i></p>
+</div>
+
+<!-- ============ 02 NUMBERS ============ -->
+<section class="sec" id="numbers">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="kicker mono">(02) — The count</span>
+      <h2 class="sec-title"><span class="mask"><span>SAFETY&nbsp;</span></span><span class="mask"><span>IN&nbsp;</span></span><em>numbers</em></h2>
+    </header>
+    <div class="stats" data-stagger>
+      <div class="stat reveal">
+        <span class="mono">U.S. census — rank Nº1</span>
+        <span class="stat-n"><span data-count="2442977">0</span></span>
+        <p>Smiths counted in the United States alone. The most common surname — and it isn’t close.</p>
+      </div>
+      <div class="stat reveal">
+        <span class="mono">The odds</span>
+        <span class="stat-n"><span class="pre">1/</span><span data-count="121">0</span></span>
+        <p>Roughly one in every 121 Americans answers to Smith. Look around the room.</p>
+      </div>
+      <div class="stat reveal">
+        <span class="mono">Clean sweep</span>
+        <span class="stat-n"><span data-count="5">0</span><span class="suf">/5</span></span>
+        <p>Countries where Smith ranks Nº1: USA, UK, Canada, Australia, New Zealand.</p>
+      </div>
+      <div class="stat reveal">
+        <span class="mono">On the books</span>
+        <span class="stat-n"><span data-count="700">0</span><span class="suf">+yrs</span></span>
+        <p>Years since the first Smiths were inked into English records. Still going.</p>
+      </div>
+    </div>
+    <p class="stat-note mono reveal"><b>★</b> Source: U.S. Census Bureau surname count. We rounded nothing up — we didn’t need to.</p>
+  </div>
+</section>
+
+<!-- ============ 03 WORLD — horizontal ============ -->
+<div id="worldWrap">
+  <section id="world" aria-label="Smiths around the world"></section>
+  <div id="worldSticky">
+    <div class="world-head">
+      <header class="sec-head reveal" style="margin-bottom:0">
+        <span class="kicker mono">(03) — Around the world</span>
+        <h2 class="sec-title"><span class="mask"><span>SAME&nbsp;</span></span><span class="mask"><span>FIRE,&nbsp;</span></span><em>different tongue</em></h2>
+      </header>
+      <p class="sec-sub mono reveal">Every culture forged its own Smith.<br>Keep scrolling — the cards do the travelling.</p>
+    </div>
+    <div id="worldTrack">
+      <article class="wcard"><span class="idx">01 — Germany</span><span class="ghost">S</span><h3>Schmidt</h3><p class="where">German lands</p><p>Same anvil, more consonants. Millions of cousins we never write to.</p></article>
+      <article class="wcard"><span class="idx">02 — Italy</span><span class="ghost">F</span><h3>Ferrari</h3><p class="where">Italy</p><p>Yes — <em>that</em> Ferrari. It literally means “smiths.” We are, technically, a supercar.</p></article>
+      <article class="wcard"><span class="idx">03 — Spain</span><span class="ghost">H</span><h3>Herrero</h3><p class="where">Spain &amp; Latin America</p><p>From <em>hierro</em> — iron. Sun-forged.</p></article>
+      <article class="wcard"><span class="idx">04 — France</span><span class="ghost">L</span><h3>Lefèvre</h3><p class="where">France</p><p>Old French <em>fevre</em>, the smith. Sounds fancier. Same soot.</p></article>
+      <article class="wcard"><span class="idx">05 — Poland</span><span class="ghost">K</span><h3>Kowalski</h3><p class="where">Poland</p><p>From <em>kowal</em>, the blacksmith — Poland’s everyman name, just like ours.</p></article>
+      <article class="wcard"><span class="idx">06 — Russia</span><span class="ghost">K</span><h3>Kuznetsov</h3><p class="where">Russia</p><p>From <em>kuznets</em>. One of Russia’s most common surnames. The forge is universal.</p></article>
+      <article class="wcard"><span class="idx">07 — Arab world</span><span class="ghost">H</span><h3>Haddad</h3><p class="where">Levant to Maghreb</p><p>From <em>ḥadīd</em> — iron. From Beirut to Casablanca, the smiths kept the name.</p></article>
+      <article class="wcard"><span class="idx">08 — Hungary</span><span class="ghost">K</span><h3>Kovács</h3><p class="where">Hungary</p><p>Among Hungary’s most common surnames. The “cs” says <em>ch</em> — go on, say hi.</p></article>
+      <article class="wcard"><span class="idx">09 — Finland</span><span class="ghost">S</span><h3>Seppänen</h3><p class="where">Finland</p><p>From <em>seppä</em>, smith — like Ilmarinen, the mythic smith who forged the sky itself.</p></article>
+      <article class="wcard"><span class="idx">10 — Ireland &amp; Scotland</span><span class="ghost">M</span><h3>McGowan</h3><p class="where">Ireland &amp; Scotland</p><p><em>Mac Gabhann</em> — “son of the smith.” The Celtic branch of the family.</p></article>
+      <article class="wcard last"><span class="idx">11 — Everywhere</span><span class="star">✦</span><h3>Wherever metal met <em>fire</em>, there was one of us.</h3></article>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 04 LEGENDS — timeline ============ -->
+<section class="sec" id="legends">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="kicker mono">(04) — Hall of Smiths</span>
+      <h2 class="sec-title"><span class="mask"><span>HEAVY&nbsp;</span></span><em>hitters</em></h2>
+      <p class="sec-sub mono">A few of the family’s greatest swings — the ember line keeps the score.</p>
+    </header>
+    <div class="tl-zone" data-draw data-lead="0.92" data-tail="0.34">
+      <div class="tl" id="tlList">
+        <svg id="tlSvg" aria-hidden="true" preserveAspectRatio="none"><path id="tlPath" class="draw" pathLength="1" d="M40 0 L40 10"/></svg>
+        <article class="tl-item"><span class="yr">c. 1300</span><h3>John atte Smithy</h3><p>Somewhere in England, a smith’s son inherits the name instead of the hammer. It sticks. <i>Seven centuries and counting.</i></p></article>
+        <article class="tl-item"><span class="yr">1607</span><h3>Capt. John Smith</h3><p>Maps the New England coast, helps found Jamestown — and lands a Disney film 388 years later.</p></article>
+        <article class="tl-item"><span class="yr">1776</span><h3>Adam Smith</h3><p>Publishes <i>The Wealth of Nations</i> and more or less invents modern economics. You’re welcome, money.</p></article>
+        <article class="tl-item"><span class="yr">1868</span><h3>Granny Smith</h3><p>Maria Ann Smith finds a rogue apple seedling in her Sydney garden. You have eaten this woman’s name.</p></article>
+        <article class="tl-item"><span class="yr">1923</span><h3>Bessie Smith</h3><p>The Empress of the Blues becomes the highest-paid Black entertainer of her day. <i>Royalty, confirmed.</i></p></article>
+        <article class="tl-item"><span class="yr">1975</span><h3>Patti Smith</h3><p>Releases <i>Horses</i>. Punk gets its poet laureate.</p></article>
+        <article class="tl-item"><span class="yr">1990</span><h3>Will Smith</h3><p>A story all about how his life got flipped, turned upside down. Also won the first-ever rap Grammy the year before.</p></article>
+        <article class="tl-item"><span class="yr">2000</span><h3>Zadie Smith</h3><p>Drops <i>White Teeth</i> at 24. Literary fiction has not fully recovered.</p></article>
+        <article class="tl-item"><span class="yr">Today</span><h3>You lot</h3><p>Four-million-plus of us worldwide, on every continent — and at least one group chat that never sleeps. <i>The forge is still warm.</i></p></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- marquee 2 -->
+<div class="marquee rev" aria-hidden="true">
+  <div class="mq-track">
+    <div class="mq-group">
+      <span>Strike while the iron is hot</span><b>✦</b>
+      <span>Every village needed one</span><b>✦</b>
+      <span>The Smithsonian is basically ours</span><b>✦</b>
+      <span>Big in South Africa too</span><b>✦</b>
+    </div>
+    <div class="mq-group" aria-hidden="true">
+      <span>Strike while the iron is hot</span><b>✦</b>
+      <span>Every village needed one</span><b>✦</b>
+      <span>The Smithsonian is basically ours</span><b>✦</b>
+      <span>Big in South Africa too</span><b>✦</b>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 05 FACTS ============ -->
+<section class="sec" id="facts">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="kicker mono">(05) — Smithereens</span>
+      <h2 class="sec-title"><span class="mask"><span>LITTLE&nbsp;</span></span><em>fragments</em><span class="mask"><span>&nbsp;OF&nbsp;TRIVIA</span></span></h2>
+      <p class="sec-sub mono">Forge-fresh. Pass them around the group chat.</p>
+    </header>
+    <div class="facts-grid" data-stagger>
+      <article class="fact reveal tilt"><span class="no">Fact 01</span><h3>The default human</h3><p>Need a name for absolutely anyone? <b>John Smith.</b> Hotel registers, secret agents, the Doctor’s alias, Agent Smith in <i>The Matrix</i>. We are the placeholder for the entire species.</p></article>
+      <article class="fact reveal tilt"><span class="no">Fact 02</span><h3>The band</h3><p>The Smiths picked the name on purpose — the most ordinary one in Britain. <b>Correct decision.</b> Imagine queuing for “The Featherstonehaughs.”</p></article>
+      <article class="fact reveal tilt" data-draw data-lead="0.95" data-tail="0.45"><span class="no">Fact 03</span><h3>Lucky us</h3><p>Legend says St. Dunstan — a smith — nailed a horseshoe to the Devil’s hoof and freed him only on a promise: never enter a home that hangs one. <b>Lucky horseshoes are a Smith invention.</b></p>
+        <svg class="shoe" viewBox="0 0 200 190" aria-hidden="true">
+          <path class="draw" data-s="0" data-e="0.8" pathLength="1" d="M62 168 L62 104 A38 38 0 1 1 138 104 L138 168"/>
+          <circle class="hole" data-pop="0.82" cx="62" cy="146" r="4"/>
+          <circle class="hole" data-pop="0.85" cx="62" cy="116" r="4"/>
+          <circle class="hole" data-pop="0.88" cx="75" cy="78" r="4"/>
+          <circle class="hole" data-pop="0.91" cx="125" cy="78" r="4"/>
+          <circle class="hole" data-pop="0.94" cx="138" cy="116" r="4"/>
+          <circle class="hole" data-pop="0.97" cx="138" cy="146" r="4"/>
+        </svg>
+      </article>
+      <article class="fact reveal tilt"><span class="no">Fact 04</span><h3>Gods of the job</h3><p>Every mythology forged one: <i>Hephaestus</i> in Greece, <i>Vulcan</i> in Rome, <i>Goibniu</i> in Ireland, <i>Ogun</i> in West Africa. The smith mattered so much, humans kept promoting him to god.</p></article>
+      <article class="fact reveal tilt"><span class="no">Fact 05</span><h3>The melting pot</h3><p>Plenty of Smiths arrived somewhere new as Schmidt, Smit, Kovács or Kuznetsov — and translated themselves on the way in. The name is a melting pot. <b>Literally.</b></p></article>
+      <article class="fact reveal tilt"><span class="no">Fact 06</span><h3>Smithereens</h3><p>Sadly not ours — it’s from Irish <i>smidiríní</i>, “little fragments.” But <b>blown to smithereens</b> sounds like something that happens near a forge, so we’re claiming adjacency.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 US ============ -->
+<section class="sec" id="us">
+  <div class="wrap">
+    <header class="sec-head reveal" style="text-align:center">
+      <span class="kicker mono" style="justify-content:center">(06) — The point</span>
+    </header>
+    <p class="manifesto reveal">There are <b>four million</b> Smiths on Earth. The name is on apples, on economics, on the blues. But only one branch of the tree shows up to <i>our braai</i> — and that’s the branch that matters.</p>
+    <ul class="ledger reveal">
+      <li><span>Group chat</span><b>Active 24/7</b></li>
+      <li><span>Family recipes</span><b>Classified</b></li>
+      <li><span>Inside jokes</span><b>Compounding daily</b></li>
+      <li><span>Next gathering</span><b>Soon. Bring chairs.</b></li>
+    </ul>
+    <div class="motto reveal">
+      <span class="mono">Family motto — real, historical</span>
+      <h3>Benè Tenax</h3>
+      <p><b>“Rightly tenacious.”</b> Found on historic Smith coats of arms. Honestly? <i>Checks out.</i></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-mq" aria-hidden="true">
+    <div class="mq-track">
+      <div class="mq-group"><span>SMITH</span><b>✦</b><span>SMITH</span><b>✦</b><span>SMITH</span><b>✦</b></div>
+      <div class="mq-group" aria-hidden="true"><span>SMITH</span><b>✦</b><span>SMITH</span><b>✦</b><span>SMITH</span><b>✦</b></div>
+    </div>
+  </div>
+  <div class="foot-bar mono">
+    <span>Forged with <b>fire</b> for the family group chat</span>
+    <span>© The Smiths — est. the Iron Age</span>
+    <span>PS — <b>click anywhere.</b> Sparks.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var d=document, w=window;
+  d.documentElement.classList.add('js');
+  function $(s,c){return (c||d).querySelector(s)}
+  function $$(s,c){return Array.prototype.slice.call((c||d).querySelectorAll(s))}
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FINE=matchMedia('(pointer: fine)').matches;
+  function clamp(v,a,b){return Math.min(b,Math.max(a,v))}
+  function lerp(a,b,t){return a+(b-a)*t}
+
+  /* ---------- loader ---------- */
+  var loader=$('#loader'), ldNum=$('#ldNum'), ldBar=$('#ldBar'), booted=false;
+  function boot(){
+    if(booted)return; booted=true;
+    d.body.classList.remove('loading'); d.body.classList.add('loaded');
+    if(loader){loader.classList.add('done'); setTimeout(function(){ if(loader&&loader.parentNode) loader.parentNode.removeChild(loader); },1200);}
+    setTimeout(function(){ $$('.hero-title .char').forEach(function(c){c.style.transitionDelay='0s';}); },2300);
+  }
+  if(RM){ if(ldNum)ldNum.textContent='100'; boot(); }
+  else{
+    var t0=performance.now(), DUR=1400;
+    requestAnimationFrame(function tick(t){
+      var p=clamp((t-t0)/DUR,0,1), e=1-Math.pow(1-p,3);
+      if(ldNum)ldNum.textContent=String(Math.round(e*100)).padStart(3,'0');
+      if(ldBar)ldBar.style.transform='scaleX('+e+')';
+      if(p<1)requestAnimationFrame(tick); else boot();
+    });
+    setTimeout(boot,2800); /* failsafe */
+  }
+
+  /* ---------- click sparks ---------- */
+  var COLORS=['#ff5a1f','#ff8a3d','#e0a45c','#ffd9a0','#fff3d9'];
+  function burst(x,y){
+    if(RM)return;
+    if($$('.spark').length>90)return;
+    for(var i=0;i<12;i++){
+      var s=d.createElement('span'); s.className='spark';
+      var a=Math.random()*Math.PI*2, dist=40+Math.random()*110;
+      var dx=Math.cos(a)*dist, dy=Math.sin(a)*dist-34;
+      var sz=2+Math.random()*4;
+      s.style.cssText='left:'+x+'px;top:'+y+'px;width:'+sz+'px;height:'+sz+'px;background:'+COLORS[(Math.random()*COLORS.length)|0];
+      d.body.appendChild(s);
+      s.animate(
+        [{transform:'translate(-50%,-50%)',opacity:1},
+         {transform:'translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px)) scale(.1)',opacity:0}],
+        {duration:520+Math.random()*420,easing:'cubic-bezier(.2,.7,.3,1)'}
+      ).onfinish=(function(el){return function(){ if(el.parentNode)el.parentNode.removeChild(el); }})(s);
+    }
+  }
+  w.addEventListener('pointerdown',function(e){burst(e.clientX,e.clientY);});
+
+  /* ---------- hero embers ---------- */
+  var emberWrap=$('#embers');
+  if(!RM&&emberWrap){
+    for(var i=0;i<16;i++){
+      var em=d.createElement('i');
+      var sz=(2+Math.random()*3).toFixed(1);
+      em.style.cssText='left:'+(Math.random()*100).toFixed(2)+'%;width:'+sz+'px;height:'+sz+'px;'+
+        '--dx:'+((Math.random()*120)-60).toFixed(0)+'px;'+
+        'animation-duration:'+(7+Math.random()*9).toFixed(1)+'s;'+
+        'animation-delay:'+(-Math.random()*12).toFixed(1)+'s;'+
+        'opacity:'+(0.35+Math.random()*0.5).toFixed(2);
+      emberWrap.appendChild(em);
+    }
+  }
+
+  /* ---------- custom cursor ---------- */
+  if(FINE&&!RM){
+    d.body.classList.add('has-cursor');
+    var dot=$('#cDot'), ring=$('#cRing');
+    var mx=innerWidth/2,my=innerHeight/2,dx2=mx,dy2=my,rx=mx,ry=my,sc=1,tSc=1,vis=0;
+    w.addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY;vis=1;});
+    d.documentElement.addEventListener('mouseleave',function(){vis=0;});
+    d.addEventListener('mouseover',function(e){
+      tSc=(e.target.closest&&e.target.closest('a,button,[data-hover],.wcard,.fact'))?2.1:1;
+    });
+    (function cl(){
+      dx2=lerp(dx2,mx,.7); dy2=lerp(dy2,my,.7);
+      rx=lerp(rx,mx,.16); ry=lerp(ry,my,.16); sc=lerp(sc,tSc,.18);
+      dot.style.transform='translate('+dx2+'px,'+dy2+'px) translate(-50%,-50%)';
+      ring.style.transform='translate('+rx+'px,'+ry+'px) translate(-50%,-50%) scale('+sc.toFixed(3)+')';
+      dot.style.opacity=vis; ring.style.opacity=vis;
+      requestAnimationFrame(cl);
+    })();
+  }
+
+  /* ---------- reveals + stagger ---------- */
+  $$('[data-stagger]').forEach(function(g){
+    Array.prototype.forEach.call(g.children,function(c,idx){ c.style.transitionDelay=(idx*70)+'ms'; });
+  });
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(!en.isIntersecting)return;
+      var el=en.target; el.classList.add('in'); io.unobserve(el);
+      var dl=parseFloat(el.style.transitionDelay)||0; /* stagger is set in ms */
+      setTimeout(function(){ el.style.transitionDelay=''; },dl+950);
+    });
+  },{threshold:.18,rootMargin:'0px 0px -6% 0px'});
+  $$('.reveal').forEach(function(el){io.observe(el);});
+
+  /* ---------- counters ---------- */
+  function fmt(n){return n.toLocaleString('en-US')}
+  var cio=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(!en.isIntersecting)return; cio.unobserve(en.target);
+      var el=en.target, end=+el.getAttribute('data-count');
+      if(RM){el.textContent=fmt(end);return;}
+      var t0=performance.now(), DUR=1700;
+      requestAnimationFrame(function tick(t){
+        var p=clamp((t-t0)/DUR,0,1), e=1-Math.pow(2,-10*p);
+        el.textContent=fmt(Math.round(end*e));
+        if(p<1)requestAnimationFrame(tick); else el.textContent=fmt(end);
+      });
+    });
+  },{threshold:.5});
+  $$('[data-count]').forEach(function(el){cio.observe(el);});
+
+  /* ---------- timeline nodes ---------- */
+  var nio=new IntersectionObserver(function(es){
+    es.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('lit'); nio.unobserve(en.target);} });
+  },{threshold:.4,rootMargin:'0px 0px -10% 0px'});
+  $$('.tl-item').forEach(function(el){nio.observe(el);});
+
+  /* ---------- timeline weaving path ---------- */
+  var tl=$('#tlList'), tlSvg=$('#tlSvg'), tlPath=$('#tlPath');
+  function buildTL(){
+    if(!tl||!tlSvg||!tlPath)return;
+    var H=tl.offsetHeight;
+    tlSvg.setAttribute('viewBox','0 0 80 '+H);
+    tlSvg.style.height=H+'px';
+    var ys=$$('.tl-item',tl).map(function(it){return it.offsetTop+27;});
+    if(!ys.length)return;
+    var dStr='M 40 0 L 40 '+Math.max(ys[0]-120,0)+' C 40 '+(ys[0]-60)+' 40 '+(ys[0]-30)+' 40 '+ys[0];
+    var dir=1, amp=34, pull=.42;
+    for(var k=1;k<ys.length;k++){
+      var ya=ys[k-1], yb=ys[k], g=(yb-ya)*pull;
+      if(k===1){ dStr+=' C '+(40+amp*dir)+' '+(ya+g)+' '+(40+amp*dir)+' '+(yb-g)+' 40 '+yb; }
+      else{ dStr+=' S '+(40+amp*dir)+' '+(yb-g)+' 40 '+yb; }
+      dir*=-1;
+    }
+    dStr+=' L 40 '+H;
+    tlPath.setAttribute('d',dStr);
+  }
+
+  /* ---------- world horizontal sizing ---------- */
+  var wrap=$('#worldWrap'), track=$('#worldTrack'), need=0, lastX=0;
+  function sizeWorld(){
+    if(!wrap||!track)return;
+    need=track.scrollWidth-innerWidth;
+    if(need<40){ wrap.style.height='auto'; track.style.transform='none'; }
+    else{ wrap.style.height=(need+innerHeight*1.6)+'px'; }
+  }
+
+  /* ---------- scroll-drawn SVG scopes ---------- */
+  var drawScopes=$$('[data-draw]').map(function(scope){
+    return {
+      scope:scope,
+      lead:parseFloat(scope.getAttribute('data-lead')||'0.85'),
+      tail:parseFloat(scope.getAttribute('data-tail')||'0.2'),
+      span:scope.hasAttribute('data-span')?parseFloat(scope.getAttribute('data-span')):0,
+      paths:$$('.draw',scope).map(function(p){
+        return {p:p,s:parseFloat(p.getAttribute('data-s')||'0'),e:parseFloat(p.getAttribute('data-e')||'1')};
+      }),
+      pops:$$('[data-pop]',scope).map(function(el){
+        return {el:el,at:parseFloat(el.getAttribute('data-pop')||'0.85')};
+      })
+    };
+  });
+  function scopeP(el,lead,tail,span){
+    var r=el.getBoundingClientRect(),D;
+    if(span){ D=Math.min(innerHeight*span,r.height*1.25); }
+    else{ D=r.height+innerHeight*(lead-tail); }
+    if(D<=0)return 1;
+    return clamp((innerHeight*lead-r.top)/D,0,1);
+  }
+
+  /* ---------- main scroll loop ---------- */
+  var bar=$('#bar'), hero=$('.hero'), heroIn=$('#heroInner');
+  function frame(){
+    var sy=w.scrollY||w.pageYOffset||0;
+    var max=d.documentElement.scrollHeight-innerHeight;
+    if(bar)bar.style.transform='scaleX('+(max>0?sy/max:0)+')';
+    d.body.classList.toggle('scrolled',sy>40);
+
+    if(hero&&heroIn){
+      var hr=hero.getBoundingClientRect();
+      if(hr.bottom>0){
+        var hp=clamp(-hr.top/hr.height,0,1);
+        heroIn.style.transform='translateY('+(hp*innerHeight*.16).toFixed(1)+'px)';
+        heroIn.style.opacity=String(1-hp*.9);
+        if(emberWrap)emberWrap.style.transform='translateY('+(hp*innerHeight*.3).toFixed(1)+'px)';
+      }
+    }
+
+    if(!RM){
+      drawScopes.forEach(function(s){
+        var p=scopeP(s.scope,s.lead,s.tail,s.span);
+        s.paths.forEach(function(o){
+          var lp=clamp((p-o.s)/(o.e-o.s),0,1);
+          o.p.style.strokeDashoffset=String(1-lp);
+          o.p.style.opacity=lp>0.002?1:0;
+        });
+        s.pops.forEach(function(o){ o.el.classList.toggle('on',p>=o.at); });
+      });
+    }
+
+    if(wrap&&track&&need>=40){
+      var r=wrap.getBoundingClientRect();
+      var denom=wrap.offsetHeight-innerHeight;
+      var p2=denom>0?clamp(-r.top/denom,0,1):0;
+      var x=-p2*need;
+      var v=x-lastX; lastX=x;
+      track.style.transform='translate3d('+x.toFixed(1)+'px,0,0)';
+      track.style.setProperty('--lean',clamp(v*.55,-7,7).toFixed(2)+'deg');
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- tilt cards ---------- */
+  if(FINE&&!RM){
+    $$('.tilt').forEach(function(card){
+      var raf=null;
+      card.addEventListener('pointermove',function(e){
+        var r=card.getBoundingClientRect();
+        var px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
+        if(raf)cancelAnimationFrame(raf);
+        raf=requestAnimationFrame(function(){
+          card.style.transform='perspective(800px) rotateX('+(-py*7).toFixed(2)+'deg) rotateY('+(px*9).toFixed(2)+'deg) translateY(-4px)';
+        });
+      });
+      card.addEventListener('pointerleave',function(){ card.style.transform=''; });
+    });
+  }
+
+  /* ---------- layout ---------- */
+  var rT;
+  function relayout(){ buildTL(); sizeWorld(); }
+  w.addEventListener('resize',function(){ clearTimeout(rT); rT=setTimeout(relayout,150); });
+  w.addEventListener('load',function(){ relayout(); setTimeout(relayout,600); });
+  relayout();
+})();
+</script>
+</body>
+</html>
